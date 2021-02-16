@@ -24,20 +24,25 @@ def main():
     root_configurer(listner_queue)
 
 
-    normal_tasks = multiprocessing.Queue(-1)
-    priority_tasks = multiprocessing.Queue(-1)
+    normal_task_queue = multiprocessing.Queue(-1)
+    priority_task_queue = multiprocessing.Queue(-1)
 
+    normal_tasks = []
+    priority_tass = []
+    num_normal = multiprocessing.cpu_count() - free_cores - num_priority
 
-  
-    logger.info('Logging from main')
-    workers = []
-    for i in range(3):
-        worker = multiprocessing.Process(target=worker_process, args=(queue,))
-        workers.append(worker)
+    
+    for i in range(num_normal):
+        worker = multiprocessing.Process(target=worker_process, args=(listner_queue,normal_task_queue))
+        normal_tasks.append(worker)
         worker.start()
-    for w in workers:
-        w.join()
-    logger.info('main function ends')
+        
+    for i in range(num_normal):
+        worker = multiprocessing.Process(target=worker_process, args=(listner_queue,priority_task_queue))
+        priority_tasks.append(worker)
+        worker.start()
+
+
 
 
 if __name__ == '__main__':
