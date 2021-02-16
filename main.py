@@ -17,13 +17,18 @@ def root_configurer(queue):
 
 
 def main():
-    queue = multiprocessing.Queue(-1)
+    listner_queue = multiprocessing.Queue(-1)
     listener = multiprocessing.Process(
-        target=listener_process, args=(queue,))
+        target=listener_process, args=(listner_queue,))
     listener.start()
+    root_configurer(listner_queue)
 
-    root_configurer(queue)
 
+    normal_tasks = multiprocessing.Queue(-1)
+    priority_tasks = multiprocessing.Queue(-1)
+
+
+  
     logger.info('Logging from main')
     workers = []
     for i in range(3):
