@@ -4,6 +4,7 @@ import multiprocessing
 from logging import handlers
 from listener import listener_process
 from worker import worker_process
+from aws import get_object_url
 
 
 logger = logging.getLogger(__name__)  # use module name
@@ -41,6 +42,7 @@ def main():
         worker = multiprocessing.Process(target=worker_process, args=(listner_queue,priority_task_queue))
         priority_tasks.append(worker)
         worker.start()
+
 
 
     sqs = boto3.resource('sqs',region_name = 'eu-west-1')
