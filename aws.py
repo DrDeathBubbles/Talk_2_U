@@ -7,7 +7,8 @@ sqs = boto3.resource('sqs')
 
 def get_object_url(bucket,key):
     break_string = '?AWSAccessKeyId'
-    pre_assigned_url = s3.generate_presigned_url('get_object', Params={'Bucket': bucket, 'Key': key})
+    pre_assigned_url = s3.generate_presigned_url('get_object', 
+    Params={'Bucket': bucket, 'Key': key})
     pre_assigned_url = pre_assigned_url.split(break_string)[0]
     return pre_assigned_url
 

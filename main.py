@@ -7,6 +7,12 @@ from worker import worker_process
 from aws import get_object_url
 
 
+try:
+    from urllib.parse import unquote 
+except ImportError:
+     from urlparse import unquote
+
+
 logger = logging.getLogger(__name__)  # use module name
 
 
