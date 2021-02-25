@@ -2,6 +2,7 @@ import logging
 import boto3
 import multiprocessing
 from logging import handlers
+from tools import monitor_queue, data_format_s3
 from listener import listener_process
 from worker import worker_process
 from aws import get_object_url
@@ -50,28 +51,11 @@ def main():
         worker.start()
 
 
-
+    q = 
     sqs = boto3.resource('sqs',region_name = 'eu-west-1')
     q = sqs.get_queue_by_name(QueueName='DS_AJM_VIDEO')  
 
    
-    while True:
-        messages = []
-        rs = q.receive_messages()
-        for m in rs:
-            temp = json.loads(m.body)
-            m.delete()
-            try:
-                temp = temp['Records'][0]['s3']['object']['key']
-                temp = unquote(temp)
-            except KeyError as ke:
-                logging.error('A key error {} has occured while trying\
-                to access the S3 filename.')
-            messages.append(temp)
-
-        for message in messages:
-            print(message) 
-
 
 
 
