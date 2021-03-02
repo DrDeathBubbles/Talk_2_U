@@ -1,11 +1,7 @@
-import boto3
+from Talkbot_redis import redis_control_database
+from Talkbot_sqs import sqs_queue
 
-from aws import get_object_url, send_sqs_message
 
-try:
-    from urllib.parse import unquote 
-except ImportError:
-     from urlparse import unquote
 
 
 
@@ -14,13 +10,7 @@ def __main__(region,input_queue):
     q = sqs.get_queue_by_name(QueueName= input_queue)
     r = redis.Redis(host='localhost', port = 6379, db=0,decode_responses=True)
 
-    redis_fields = {'primary_key':'unset',
-    's3_raw':'unset',
-    's3_processed':'unset',
-    'transcript':'unset',
-    'vimeo':'unset',
-    'audio':'unset',
-    }
+
 
     while True:
         keys = []

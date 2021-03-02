@@ -2,7 +2,7 @@ import logging
 import boto3
 import multiprocessing
 from logging import handlers
-from tools import monitor_queue, data_format_s3
+from tools import monitor_queue_apply_function, data_format_s3
 from talkbot_sqs import sqs_queue
 from listener import listener_process
 from worker import worker_process
@@ -55,10 +55,28 @@ def main():
     sqs_priority =  sqs_queue('talkbot_priority')
     sqs_normal = sqs_queue('talkbot_normal')
 
+
     while True:
-        monitor_queue(sqs_normal,data_format_s3,sqs_normal.put)
-        monitor_queue(sqs_priority,data_format_s3,sqs_normal.put)
-   
+        priority_messages = sqs_priority.get_sqs_message()
+        normal_messages = sqs_normal.get_sqs_message()
+        for message in priority_messages:
+            formated_data = data_format(message)
+            try:
+                priority_task_queue.put(formated_data)
+            except:
+               logger.error(f'Could not add {message} to priority queue')
+
+        for message in normal_messages:
+            format_data = data_format(message) 
+            try:
+                normal_task_queue.put(format_data) 
+            except:
+                logger.error(f'Could not add {message} to normal queue')          
+
+
+    monitor_queue_apply_function(sqs_normal,data_format_s3,normal_task_queue.put)
+    monitor_queue_apply_function(sqs_priority,data_format_s3,priority_task_queue.put)
+
 
 
 

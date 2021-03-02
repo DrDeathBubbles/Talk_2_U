@@ -23,9 +23,11 @@ def monitor_queue_yiel_result(queue, data_format, function):
             for message in messages:
                 formated_data = data_format(message)
                 try:
-                    function(formated_data)
+                    data = function(formated_data)
                 except:
                     raise TypeError
+
+                return data
 
 def monitor_queue_apply_function(queue, data_format, function):
         while True:
