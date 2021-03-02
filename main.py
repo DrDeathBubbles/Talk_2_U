@@ -3,6 +3,7 @@ import boto3
 import multiprocessing
 from logging import handlers
 from tools import monitor_queue, data_format_s3
+from talkbot_sqs import sqs_queue
 from listener import listener_process
 from worker import worker_process
 from aws import get_object_url
@@ -51,10 +52,12 @@ def main():
         worker.start()
 
 
-    q = 
-    sqs = boto3.resource('sqs',region_name = 'eu-west-1')
-    q = sqs.get_queue_by_name(QueueName='DS_AJM_VIDEO')  
+    sqs_priority =  sqs_queue('talkbot_priority')
+    sqs_normal = sqs_queue('talkbot_normal')
 
+    while True:
+        monitor_queue(sqs_normal,data_format_s3,sqs_normal.put)
+        monitor_queue(sqs_priority,data_format_s3,sqs_normal.put)
    
 
 

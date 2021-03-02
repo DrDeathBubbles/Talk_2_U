@@ -7,6 +7,7 @@ class redis_control_database:
     'transcript':'unset',
     'vimeo':'unset',
     'audio':'unset',
+    'priority':False
     }
     
     def __init__(self, port):
@@ -26,6 +27,10 @@ class redis_control_database:
         assert self.check_keys_in_redis_fields(field), 'Field not in schema'
         self.connection.hset(key,field,value)
 
+    def get_field(key,field,value):
+        assert self.check_keys_in_redis_fields(field), 'Field not in schema'
+        data = self.connection.hget(key,field)
+        return data
         
 
 

@@ -17,9 +17,17 @@ def data_format_s3(message):
     return temp
 
 
+def monitor_queue_yiel_result(queue, data_format, function):
+        while True:
+            messages = queue.get_sqs_message()
+            for message in messages:
+                formated_data = data_format(message)
+                try:
+                    function(formated_data)
+                except:
+                    raise TypeError
 
-
-def monitor_queue(queue, data_format, function):
+def monitor_queue_apply_function(queue, data_format, function):
         while True:
             messages = queue.get_sqs_message()
             for message in messages:
