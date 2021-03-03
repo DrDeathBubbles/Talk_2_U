@@ -80,11 +80,3 @@ watermark = '~/video_files/assets/watermark.png'):
             #Send SQS to vimeo upload    
             
 
-
-
-
-
-def worker_process(listner_queue,task_queue):
-    for i in range(3):
-        sleep(random())
-        logger.info(f'Logging a random number {randint(0, 10)}')
