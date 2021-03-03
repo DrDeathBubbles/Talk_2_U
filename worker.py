@@ -15,7 +15,7 @@ def cleanup_files(raw_file, ed_file):
 
 
 
-def video_processing(listner_queue, task_queue, redis_database, input_bucket = 'cc21-raw',
+def video_processing(listner_queue, task_queue, redis_database, talkbot_vimeo, input_bucket = 'cc21-raw',
 output_bucket = 'cc21-ed', raw_location = '~/video_files/raw/', 
 ed_location = '~/video_files/ed/', sting = '~/video_files/assets/sting.mp4',
 watermark = '~/video_files/assets/watermark.png'):
@@ -70,6 +70,7 @@ watermark = '~/video_files/assets/watermark.png'):
 
 
             try:
+                talkbot_vimeo.send_sqs_message()
 
             except:
 

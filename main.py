@@ -26,40 +26,47 @@ def root_configurer(queue):
     root.setLevel(logging.DEBUG)
 
 
-def main(free_cores = 1, num_priority = 1):
+def main(redis_port = 6379, free_cores = 1, num_priority = 1):
     listner_queue = multiprocessing.Queue(-1)
     listener = multiprocessing.Process(
         target=listener_process, args=(listner_queue,))
     listener.start()
     root_configurer(listner_queue)
 
-    redis_main =  redis_control_database(6379)
+
+    talkbot_processing_priority =  sqs_queue('talkbot_processing_priority')
+    talkbot_processing_normal = sqs_queue('talkbot_processing_normal')
+    talkbot_vimeo = sqs_queue('talkbot_vimeo')
+
+    redis_main =  redis_control_database(redis_port)
     normal_task_queue = multiprocessing.Queue(-1)
     priority_task_queue = multiprocessing.Queue(-1)
 
     normal_tasks = []
-    priority_tass = []
+    priority_tasks = []
     num_normal = multiprocessing.cpu_count() - free_cores - num_priority
+
 
     
     for i in range(num_normal):
-        worker = multiprocessing.Process(target= video_processing,args=(listner_queue, normal_task_queue, redis_main))
+        worker = multiprocessing.Process(target= video_processing,args=(listner_queue, normal_task_queue,
+        redis_main, talkbot_vimeo))
         normal_tasks.append(worker)
         worker.start()
         
     for i in range(num_normal):
-        worker = multiprocessing.Process(target= video_processing, args=(listner_queue, priority_task_queue, redis_main))
+        worker = multiprocessing.Process(target= video_processing, args=(listner_queue, priority_task_queue,
+        redis_main, talkbot_vimeo))
         priority_tasks.append(worker)
         worker.start()
 
 
-    sqs_priority =  sqs_queue('talkbot_processing_priority')
-    sqs_normal = sqs_queue('talkbot_processing_normal')
+
 
 
     while True:
-        priority_messages = sqs_priority.get_sqs_message()
-        normal_messages = sqs_normal.get_sqs_message()
+        priority_messages = talkbot_processing_priority.get_sqs_message()
+        normal_messages = talkbot_processing_normal.get_sqs_message()
         for message in priority_messages:
             formated_data = data_format_s3(message)
             try:
