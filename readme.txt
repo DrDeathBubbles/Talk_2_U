@@ -1,4 +1,13 @@
 
+# SQS queues
+* talkbot_s3
+* talkbot_processing_priority
+* talkbot_processing_normal
+* talkbot_vimeo
+* talkbot_transcription
+
+
+
 
 # Redis setup
 

@@ -22,6 +22,7 @@ watermark = '~/video_files/assets/watermark.png'):
     process_name = multiprocessing.current_process().name
     input_bucket = s3_bucket(input_bucket)
     output_bucket = s3_bucket(output_bucket)
+    talkot_vimeo = 
 
     while True:
         edited_url = 'Not generated'
@@ -65,7 +66,16 @@ watermark = '~/video_files/assets/watermark.png'):
                 cleanup_files(raw_file,ed_file)    
 
             except:
-               logger.error(f"{key} failed to cleanup") 
+               logger.error(f"{key} failed to cleanup")
+
+
+            try:
+
+            except:
+
+
+
+            #Send SQS to vimeo upload    
             
 
 

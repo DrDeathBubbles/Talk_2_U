@@ -4,8 +4,9 @@ import multiprocessing
 from logging import handlers
 from tools import monitor_queue_apply_function, data_format_s3
 from talkbot_sqs import sqs_queue
+from redis.Talkbot_redis import redis_control_database
 from listener import listener_process
-from worker import worker_process
+from worker import video_processing
 from aws import get_object_url
 
 
@@ -25,14 +26,14 @@ def root_configurer(queue):
     root.setLevel(logging.DEBUG)
 
 
-def main():
+def main(free_cores = 1, num_priority = 1):
     listner_queue = multiprocessing.Queue(-1)
     listener = multiprocessing.Process(
         target=listener_process, args=(listner_queue,))
     listener.start()
     root_configurer(listner_queue)
 
-
+    redis_main =  redis_control_database(6379)
     normal_task_queue = multiprocessing.Queue(-1)
     priority_task_queue = multiprocessing.Queue(-1)
 
@@ -42,40 +43,38 @@ def main():
 
     
     for i in range(num_normal):
-        worker = multiprocessing.Process(target=worker_process, args=(listner_queue,normal_task_queue))
+        worker = multiprocessing.Process(target= video_processing,args=(listner_queue, normal_task_queue, redis_main))
         normal_tasks.append(worker)
         worker.start()
         
     for i in range(num_normal):
-        worker = multiprocessing.Process(target=worker_process, args=(listner_queue,priority_task_queue))
+        worker = multiprocessing.Process(target= video_processing, args=(listner_queue, priority_task_queue, redis_main))
         priority_tasks.append(worker)
         worker.start()
 
 
-    sqs_priority =  sqs_queue('talkbot_priority')
-    sqs_normal = sqs_queue('talkbot_normal')
+    sqs_priority =  sqs_queue('talkbot_processing_priority')
+    sqs_normal = sqs_queue('talkbot_processing_normal')
 
 
     while True:
         priority_messages = sqs_priority.get_sqs_message()
         normal_messages = sqs_normal.get_sqs_message()
         for message in priority_messages:
-            formated_data = data_format(message)
+            formated_data = data_format_s3(message)
             try:
                 priority_task_queue.put(formated_data)
             except:
                logger.error(f'Could not add {message} to priority queue')
 
         for message in normal_messages:
-            format_data = data_format(message) 
+            format_data = data_format_s3(message) 
             try:
                 normal_task_queue.put(format_data) 
             except:
                 logger.error(f'Could not add {message} to normal queue')          
 
 
-    monitor_queue_apply_function(sqs_normal,data_format_s3,normal_task_queue.put)
-    monitor_queue_apply_function(sqs_priority,data_format_s3,priority_task_queue.put)
 
 
 
