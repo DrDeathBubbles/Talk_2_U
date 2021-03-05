@@ -1,5 +1,6 @@
 import logging
-import multiprocessing 
+import multiprocessing
+import os 
 from time import sleep
 from random import random, randint
 from video_processing import video_processing
@@ -74,6 +75,8 @@ watermark = '~/video_files/assets/watermark.png'):
                 talkbot_vimeo.send_sqs_message()
 
             except:
+                logger.error(f"{key} not sent to vimeo")
+
 
 
 
