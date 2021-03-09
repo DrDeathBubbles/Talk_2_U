@@ -1,5 +1,5 @@
-from Talkbot_redis import redis_control_database
-from Talkbot_sqs import sqs_queue, data_format_s3
+from tools.talkbot_redis import redis_control_database
+from tools.talkbot_sqs import sqs_queue, data_format_s3
 from talkbot_redis import redis_control_database
 from aws import get_object_url
 

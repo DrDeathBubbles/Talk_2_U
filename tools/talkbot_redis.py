@@ -14,7 +14,7 @@ class redis_control_database:
         self.port = port
         self.conn = redis.StrictRedis(host='localhost', port = port, db=0, decode_responses=True)
 
-    def check_keys_in_redis_fields(field):
+    def check_keys_in_redis_fields(self, field):
         if field in redis_schema.keys():
             return True
         else:
