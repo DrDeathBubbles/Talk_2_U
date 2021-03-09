@@ -1,7 +1,7 @@
 import redis 
 
 class redis_control_database:
-    redis_schema = {'primary_key':key,
+    redis_schema = {'primary_key':'key',
     's3_raw':'unset',
     's3_processed':'unset',
     'transcript':'unset',
@@ -21,6 +21,7 @@ class redis_control_database:
             return False     
 
     def make_record(self, key):
+        redis_schema['primary_key'] = key
         self.conn.hmset(key, redis_schema)
 
     def update_field(self, key,field,value):
