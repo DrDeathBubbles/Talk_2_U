@@ -20,19 +20,19 @@ class redis_control_database:
         else:
             return False     
 
-    def make_record(key):
+    def make_record(self, key):
         self.conn.hmset(key, redis_schema)
 
-    def update_field(key,field,value):
+    def update_field(self, key,field,value):
         assert self.check_keys_in_redis_fields(field), 'Field not in schema'
         self.conn.hset(key,field,value)
 
-    def get_field(key,field,value):
+    def get_field(self, key,field,value):
         assert self.check_keys_in_redis_fields(field), 'Field not in schema'
         data = self.conn.hget(key,field)
         return data
 
-    def check_exits(key):
+    def check_exits(self, key):
         if self.conn.exists(key):
             return True
         else:
