@@ -12,7 +12,6 @@ class redis_control_database:
     
     def __init__(self, port):
         self.port = port
-        self.redis
         self.conn = redis.StrictRedis(host='localhost', port = port, db=0, decode_responses=True)
 
     def check_keys_in_redis_fields(self, field):
@@ -24,7 +23,7 @@ class redis_control_database:
     def make_record(self, key):
         schema = self.redis_schema.copy()
         schema['primary_key'] = key
-        self.conn.hmset(key, schema)
+        self.conn.hset(key, schema)
 
     def update_field(self, key,field,value):
         assert self.check_keys_in_redis_fields(field), 'Field not in schema'
