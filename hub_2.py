@@ -17,12 +17,18 @@ def __main__(region,redis_port, input_queue):
         messsages = s3_queue.get_sqs_message()
         for message in messages:
             key = data_format_s3(message)
-            if r.check_exists:
+            if r.check_exists(key):
+                if r.get_field(key,'priority') == 0:
+                    talkbot_normal.send_sqs_message(key)
+                else:
+                    talkbot_priority.send_sqs_message(key)    
+
                 #Processing to priority or normal
                 #Controlled flow
 
                 r.get_field('')
                 pass
+            
             else:
                 #Here do everything
                 r.make_record(key)
