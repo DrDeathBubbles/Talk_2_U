@@ -57,7 +57,7 @@ class sqs_queue:
         out = []
         messages = self.queue.receive_messages()
         for m in messages:
-            out.append(json.loads(m.body)
+            out.append(json.loads(m.body))
             m.delete()
         return out    
     
