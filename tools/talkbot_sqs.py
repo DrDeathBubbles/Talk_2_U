@@ -66,6 +66,6 @@ class sqs_queue:
         return response 
 
     def send_s3_sqs_message(self,key):
-        message = s3_sqs_message_format.copy()
+        message = self.s3_sqs_message_format.copy()
         message['Records'][0]['s3']['object']['key'] = key
         self.send_sqs_message(message)
