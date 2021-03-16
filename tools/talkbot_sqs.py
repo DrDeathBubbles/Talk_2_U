@@ -68,4 +68,5 @@ class sqs_queue:
     def send_s3_sqs_message(self,key):
         message = self.s3_sqs_message_format.copy()
         message['Records'][0]['s3']['object']['key'] = key
+        message = json.dumps(message)
         self.send_sqs_message(message)
