@@ -1,10 +1,10 @@
 import botocore.session
 import boto3
 session = botocore.session.get_session()
-s3 = session.create_client('s3')
+s3 = session.create_client('s3', region_name = 'eu-west-1')
 s3._client_config.signature_version = botocore.UNSIGNED
 
-sqs = boto3.resource('sqs')
+sqs = boto3.resource('sqs', region_name = 'eu-west-1')
 
 
 
@@ -31,7 +31,6 @@ class s3_bucket():
         Params={'Bucket': self.bucket_name, 'Key': key})
         pre_assigned_url = pre_assigned_url.split(break_string)[0]
         return pre_assigned_url
-
 
 
 def get_object_url(bucket,key):
