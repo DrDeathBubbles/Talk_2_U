@@ -3,8 +3,7 @@ import multiprocessing
 import os 
 from time import sleep
 from random import random, randint
-from video_processing import video_processing
-from aws import s3_bucket
+from tools.talkbot_s3 import s3_bucket
 
 
 logger = logging.getLogger(__name__)  # use module name
