@@ -5,9 +5,10 @@ from logging import handlers
 from tools.tools import data_format_s3
 from tools.talkbot_sqs import sqs_queue
 from tools.talkbot_redis import redis_control_database
+from tools.talkbot_s3 import get_object_url
 from listener import listener_process
 from worker import video_processing
-from aws import get_object_url
+
 
 
 try:
@@ -23,7 +24,7 @@ def root_configurer(queue):
     h = handlers.QueueHandler(queue)
     root = logging.getLogger()
     root.addHandler(h)
-    root.setLevel(logging.DEBUG)
+    root.setLevel(logging.ERROR)
 
 
 def main(redis_port = 6379, free_cores = 1, num_priority = 1):

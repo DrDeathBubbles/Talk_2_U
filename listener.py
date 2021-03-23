@@ -13,7 +13,7 @@ def listener_configurer():
     console_handler.setFormatter(formatter)
     root.addHandler(file_handler)
     root.addHandler(console_handler)
-    root.setLevel(logging.DEBUG)
+    root.setLevel(logging.ERROR)
 
 
 def listener_process(queue):
