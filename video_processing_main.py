@@ -27,7 +27,7 @@ def root_configurer(queue):
     root.setLevel(logging.ERROR)
 
 
-def main(redis_port = 6379, free_cores = 1, num_priority = 1):
+def main(redis_port = 6379, free_cores = 1, num_priority = 0):
     listner_queue = multiprocessing.Queue(-1)
     listener = multiprocessing.Process(
         target=listener_process, args=(listner_queue,))
@@ -55,7 +55,7 @@ def main(redis_port = 6379, free_cores = 1, num_priority = 1):
         normal_tasks.append(worker)
         worker.start()
         
-    for i in range(num_normal):
+    for i in range(num_priority):
         worker = multiprocessing.Process(target= video_processing, args=(listner_queue, priority_task_queue,
         redis_main, talkbot_vimeo))
         priority_tasks.append(worker)
