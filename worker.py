@@ -28,7 +28,7 @@ watermark = '~/video_files/assets/watermark.png'):
     while True:
         edited_url = 'Not generated'
         tasks = task_queue.get()
-        key = tasks[0]
+        key = tasks
         raw_file = raw_location + key
         ed_file = ed_location + key
         
