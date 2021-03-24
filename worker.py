@@ -53,7 +53,7 @@ watermark = '/home/ubuntu/AJM/video_files/assets/watermark.png'):
                 logger.critical(f"{key} failed to video process.")
 
             try:
-                edited_url = output_bucket.post_to_s3(ed_file)
+                edited_url = output_bucket.post_to_s3(ed_file, key)
 
             except:                                       
                 logger.error(f"{key} failed to produce video url.")
