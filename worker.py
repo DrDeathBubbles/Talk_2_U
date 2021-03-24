@@ -47,7 +47,7 @@ watermark = '/home/ubuntu/AJM/video_files/assets/watermark.png'):
                continue
 
             try: 
-                video_processing(process_name, raw_file, sting, watermark, ed_file)
+                video_editing(process_name, raw_file, sting, watermark, ed_file)
 
             except:
                 logger.critical(f"{key} failed to video process.")
