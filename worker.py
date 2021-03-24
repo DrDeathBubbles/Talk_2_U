@@ -4,6 +4,7 @@ import os
 from time import sleep
 from random import random, randint
 from tools.talkbot_s3 import s3_bucket
+from tools.video_processing import video_editing
 
 
 logger = logging.getLogger(__name__)  # use module name

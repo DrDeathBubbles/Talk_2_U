@@ -4,7 +4,7 @@ import moviep
 
 
 
-def video_processing(process_name,video_file,sting, watermark, output):
+def video_editing(process_name,video_file,sting, watermark, output):
     clip = VideoFileClip(video_file)
     starting_clip = VideoFileClip(sting)
     if clip.size[0] != starting_clip.size[0]:
