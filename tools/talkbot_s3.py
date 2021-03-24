@@ -16,16 +16,16 @@ class s3_bucket():
         self.bucket =  self.s3.Bucket(bucket_name) 
 
 
-    def retrieve_from_s3(key, local_file):
+    def retrieve_from_s3(self, key, local_file):
         out = self.bucket.download_file(key, local_filename)
         return out
 
-    def post_to_s3(local_file, key):
+    def post_to_s3(self, local_file, key):
         out = self.bucket.upload_file(local_file, key)
         url = self.get_object_url(key)
         return url
 
-    def get_object_url(key):
+    def get_object_url(self, key):
         break_string = '?AWSAccessKeyId'
         pre_assigned_url = s3.generate_presigned_url('get_object', 
         Params={'Bucket': self.bucket_name, 'Key': key})
