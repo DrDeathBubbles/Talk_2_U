@@ -17,7 +17,7 @@ class s3_bucket():
 
 
     def retrieve_from_s3(self, key, local_file):
-        out = self.bucket.download_file(key, local_filename)
+        out = self.bucket.download_file(key, local_file)
         return out
 
     def post_to_s3(self, local_file, key):
