@@ -17,10 +17,10 @@ def cleanup_files(raw_file, ed_file):
 
 def video_processing(listner_queue, task_queue, redis_database,
  talkbot_vimeo, input_bucket = 'cc21-raw',
-output_bucket = 'cc21-ed', raw_location = '~/video_files/raw/', 
-ed_location = '~/video_files/ed/', sting = '~/video_files/assets/sting.mp4',
-watermark = '~/video_files/assets/watermark.png'):
-    process_name = multiprocessing.current_process().name
+output_bucket = 'cc21-ed', raw_location = '/home/ubuntu/AJM/video_files/raw/', 
+ed_location = '/home/ubuntu/AJM/video_files/ed/', sting = '/home/ubuntu/AJM/video_files/assets/sting.mp4',
+watermark = '/home/ubuntu/AJM/video_files/assets/watermark.png'):
+    process_name = multiprocessing.current_process()
     input_bucket = s3_bucket(input_bucket)
     output_bucket = s3_bucket(output_bucket)
      
