@@ -32,17 +32,18 @@ class s3_bucket():
         pre_assigned_url = pre_assigned_url.split(break_string)[0]
         return pre_assigned_url
 
+    def get_file_list_url(self, s3_bucket_name):
+        my_bucket = self.bucket
+        get_last_modified = lambda obj: int(obj.last_modified.strftime('%s'))
+        unsorted = []
+        for f in my_bucket.objects.filter():
+            unsorted.append(f)
+        files = [obj.key for obj in sorted(unsorted, key=get_last_modified, reverse=True)][1:]
+        files_url = [self.get_object_url(f) for f in files]
+        #files_url = ['https://s3-eu-west-1.amazonaws.com/' + self.bucket_name + '/' + f for f in files]
+        return list(zip(*[files,files_url])) 
 
-def get_object_url(bucket,key):
-    break_string = '?AWSAccessKeyId'
-    pre_assigned_url = s3.generate_presigned_url('get_object', 
-    Params={'Bucket': bucket, 'Key': key})
-    pre_assigned_url = pre_assigned_url.split(break_string)[0]
-    return pre_assigned_url
+    
 
-
-def send_sqs_message(queue_name,message):
-    queue = sqs.get_queue_by_name(QueueName=queue_name)
-    response = queue.send_message(MessageBody=message)
 
 
