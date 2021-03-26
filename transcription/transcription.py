@@ -3,7 +3,7 @@ import boto3
 
 
 
-class transcribe:
+class transcribe():
 
     def __init__(self):
         super().__init__()
