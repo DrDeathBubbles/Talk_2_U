@@ -1,10 +1,10 @@
 import botocore.session
 import boto3
-session = botocore.session.get_session()
-s3 = session.create_client('s3', region_name = 'eu-west-1')
-s3._client_config.signature_version = botocore.UNSIGNED
+#session = botocore.session.get_session()
+#s3 = session.create_client('s3', region_name = 'eu-west-1')
+#s3._client_config.signature_version = botocore.UNSIGNED
 
-sqs = boto3.resource('sqs', region_name = 'eu-west-1')
+#sqs = boto3.resource('sqs', region_name = 'eu-west-1')
 
 
 
