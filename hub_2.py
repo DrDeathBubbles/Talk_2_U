@@ -1,10 +1,11 @@
 from tools.talkbot_redis import redis_control_database
-from tools.talkbot_sqs import sqs_queue, data_format_s3
+from tools.talkbot_sqs import sqs_queue
 from tools.talkbot_redis import redis_control_database
+from tools.tools import data_format_s3
 from aws import get_object_url
 
 
-def __main__(region,redis_port, input_queue):
+def __main__(region,redis_port = 6379, input_queue = 'talkbot_s3'):
     r = redis_control_database(redis_port)
     s3_queue = sqs_queue(input_queue)
 
@@ -20,26 +21,23 @@ def __main__(region,redis_port, input_queue):
             if r.check_exists(key):
                 if r.get_field(key,'priority') == 0:
                     talkbot_normal.send_sqs_message(key)
+                    talkbot_transcription.send_sqs_message(key)
                 else:
-                    talkbot_priority.send_sqs_message(key)    
-
-                #Processing to priority or normal
-                #Controlled flow
-
-                r.get_field('')
-                pass
+                    talkbot_priority.send_sqs_message(key)
+                    talkbot_transcription.send_sqs_message(key)    
             
             else:
-                #Here do everything
                 r.make_record(key)
-            url = get_object_url(key)
-            r.make_record(key)
-            r.update_field(key,'s3_raw',url)
+                url = get_object_url(key)
+                r.update_field(key,'s3_raw',url)
+                talkbot_normal.send_sqs_message(key)
+                talkbot_transcription.send_sqs_message(key)
+
             
-            if r.get_field(key,'priority'):
-                talkbot_priority.send_sqs_message()
-            else:
-                talkbot_normal.send_sqs_message()    
+if __name__ == '__main__':
+    main()            
+            
+     
 
 
 
