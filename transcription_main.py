@@ -1,6 +1,7 @@
 from tools.talkbot_redis import redis_control_database
 from tools.talkbot_s3 import s3_bucket
 from transcription.transcription import transcribe
+#This needs to be investaged/updated 
 from transcription.Transcription_control import generate_transcription_translate_import 
 
 
