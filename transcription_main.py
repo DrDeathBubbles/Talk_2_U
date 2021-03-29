@@ -14,9 +14,10 @@ local_file_location = '/', bucket_name = 'cc21-transcriptions'):
         for key in messages:
             data = r.get_data(key)
             texts = generate_transcription_translate_import(data['s3_raw'])
-            for text in texts:
-                bucket.post_to_s3(text, text)
-                
+            for k, value in texts.items():
+                bucket.post_to_s3(value)
+                r.update_field(key, k, value)
+
 
             
 
