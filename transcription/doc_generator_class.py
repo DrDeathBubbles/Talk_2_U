@@ -44,13 +44,15 @@ def service_generation():
 
     return [drive_service, service]
 
+
 def doc_generator():
 
     def __init__:
-        self.service = service_generation()
+        self.service_objects = service_generation()
 
 
-    def doc_generation(drive_service,service,vimeo_url, s3_url, uid, speakers, text, title):
+    def doc_generation(vimeo_url, s3_url, uid, speakers, text, title,
+    drive_service = self.service[0],service = self.service_objects[1]):
 
         document_id = '1szDKqGQYj0w8eze0D5YHr5kJ-XyooagV-moK6-kmK08'
         copy_title = title 
@@ -119,46 +121,6 @@ def doc_generator():
 
 
 
-
-
-
-def json_processing(j_obj):
-    out = {}
-    out['vimeo_url'] = j_obj['Body']['vimeo_url']['StringValue']
-    out['s3_url'] = j_obj['Body']['s3_url']['StringValue'] 
-    out['uid'] = j_obj['Body']['uid']['StringValue']
-    out['speakers'] =  j_obj['Body']['speakers']['StringValue']
-    out['text'] =  j_obj['Body']['text']['StringValue']
-    out['title'] =  j_obj['Body']['title']['StringValue']
-    return out 
-
-def service_generation():
-    """Shows basic usage of the Docs API.
-    Prints the title of a sample document.
-    """
-    creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
-
-    service = build('docs', 'v1', credentials=creds)
-    drive_service = build('drive', 'v3', credentials=creds)
-
-    return [drive_service, service]
 
 
 
