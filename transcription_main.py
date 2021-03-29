@@ -13,7 +13,7 @@ local_file_location = '/', bucket_name = 'cc21-transcriptions'):
         messages = transcription_queue.get_sqs_message() 
         for key in messages:
             data = r.get_data(key)
-            texts = generate_transcription_translate_import(data['s3_raw'])
+            texts = generate_transcription_translate_import(data['s3_raw'], file_location = './')
             for k, value in texts.items():
                 bucket.post_to_s3(value)
                 r.update_field(key, k, value)
