@@ -7,6 +7,8 @@ class redis_control_database:
     'transcript':'unset',
     'vimeo':'unset',
     'audio':'unset',
+    'vtt':'unset',
+    'srt':'unset',
     'priority':0
     }
     
@@ -33,6 +35,12 @@ class redis_control_database:
         assert self.check_keys_in_redis_fields(field), 'Field not in schema'
         data = self.conn.hget(key,field)
         return data
+
+    def get_data(self, key):
+        assert self.check_keys_in_redis_fields(field), 'Field not in schema'
+        data = self.conn.hgetall(key)
+        return data
+
 
     def check_exits(self, key):
         if self.conn.exists(key):
