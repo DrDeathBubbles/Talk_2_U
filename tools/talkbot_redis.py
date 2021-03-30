@@ -1,5 +1,5 @@
 import redis 
-from talkbot_sqs import sqs_queue
+from tools.talkbot_sqs import sqs_queue
 
 class redis_control_database:
     redis_schema = {'primary_key':'key',
