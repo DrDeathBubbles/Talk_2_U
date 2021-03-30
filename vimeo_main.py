@@ -2,9 +2,9 @@ from tools.talkbot_sqs import sqs_queue
 from tools.talkbot_redis import redis_control_database, redis_talk_data
 from tools.talkbot_s3 import s3_bucket
 from vimeo_tools.video_upload import vimeo_upload
+import os
 
-
-def main(bucket = 'cc21-ed', local_file_location = '/', port = '6378', queue ='talkbot_vimeo'):
+def main(bucket = 'cc21-ed', local_file_location = '../', port = '6378', queue ='talkbot_vimeo'):
     vimeo_queue = sqs_queue(queue)
     talk_data = redis_talk_data(port)
     video_data = redis_control_database(port) 
@@ -22,6 +22,7 @@ def main(bucket = 'cc21-ed', local_file_location = '/', port = '6378', queue ='t
     
             video_data.update_field(message,'vimeo',vimeo_url)
             talk_data.update(message, 'vimeo', vimeo_url)
+            os.remove(local_file)
 
 
 if __name__ == '__main__':
