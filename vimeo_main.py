@@ -10,7 +10,7 @@ def main(bucket = 'cc21-ouput', local_file_location = '/', port = '6378', queue 
     video_data = redis_control_database(port) 
     bucket = s3_bucket(bucket) 
     while True:
-        messages = vimeo_queue.get_sqs_message() 
+        messages = vimeo_queue.get_sqs_message_raw() 
         for message in messages:
             local_file = local_file_location + message
             data = r.get_talk_data(message)
