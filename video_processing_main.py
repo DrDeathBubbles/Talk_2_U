@@ -68,18 +68,18 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1):
         priority_messages = talkbot_processing_priority.get_sqs_message()
         normal_messages = talkbot_processing_normal.get_sqs_message()
         for message in priority_messages:
-            formatted_data = data_format_s3(message)
+            key = data_format_s3(message)
             try:
-                priority_task_queue.put(formatted_data)
+                priority_task_queue.put(key)
             except:
-               logger.error(f'Could not add {message} to priority queue')
+               logger.error(f'Could not add {key} to priority queue')
 
         for message in normal_messages:
-            formatted_data = data_format_s3(message) 
+            formatted_data = data_format_s3(key) 
             try:
-                normal_task_queue.put(formatted_data) 
+                normal_task_queue.put(key) 
             except:
-                logger.error(f'Could not add {message} to normal queue')          
+                logger.error(f'Could not add {key} to normal queue')          
 
 
 

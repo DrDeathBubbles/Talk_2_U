@@ -5,7 +5,7 @@ from transcription.transcription import transcribe
 from transcription.Transcription_control import generate_transcription_translate_import 
 
 
-def main(redis_port = '6379', transcription_queue_name = 'talkbot_transcription',
+def main(redis_port = '6378', transcription_queue_name = 'talkbot_transcription',
 local_file_location = '/', bucket_name = 'cc21-transcriptions'):
     transcription_queue = sqs.queue(transcription_queue_name)
     r = redis_control_database(redis_port)
@@ -20,7 +20,11 @@ local_file_location = '/', bucket_name = 'cc21-transcriptions'):
                 r.update_field(key, k, value)
                 
 
-            
+
+
+
+if __name__ == '__main__':
+    main()            
 
 
 
