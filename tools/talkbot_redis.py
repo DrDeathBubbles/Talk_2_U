@@ -2,7 +2,7 @@ import redis
 from tools.talkbot_sqs import sqs_queue
 
 class redis_control_database:
-    redis_schema = {'primary_key':'key',
+    redis_schema = {'primary_key':'unset',
     's3_raw':'unset',
     's3_processed':'unset',
     'transcript':'unset',
@@ -76,7 +76,7 @@ class redis_control_database:
         keys = self.conn.keys('*')
         out = []
         for key in keys:
-            type = conn.type(key)
+            type = self.conn.type(key)
             if type == "string":
                 out.append(self.conn.get(key))
             if type == "hash":
@@ -95,15 +95,25 @@ class redis_control_database:
 
 class redis_talk_data(redis_control_database, sqs_queue):
 
-    redis_schema = {'primary_key':'key',
+    redis_schema = {'primary_key':'unset',
     'title':'unset',
     'description':'unset',
     'vimeo_url':'unset',
-    'priority':0
     }
 
-    def __init_subclass__(cls):
+    def __init__(self,port):
+        super().__init__(port)
         self.conn = redis.StrictRedis(host='localhost', port = port, db=1, decode_responses=True) 
-        return super().__init_subclass__()
+        
 
+    def make_record(self, key):
+        schema = self.redis_schema.copy()
+        schema['primary_key'] = key
+        self.conn.hmset(key, schema)
 
+    def safe_make_record(self, key, priority=0):
+        if self.check_exists_redis(key):
+            return False 
+        else:
+            self.make_record(key)
+            return True     
