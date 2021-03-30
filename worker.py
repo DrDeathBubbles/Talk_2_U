@@ -72,7 +72,7 @@ watermark = '/home/ubuntu/AJM/video_files/assets/watermark.png'):
 
 
             try:
-                talkbot_vimeo.send_sqs_message()
+                talkbot_vimeo.send_sqs_message(key)
 
             except:
                 logger.error(f"{key} not sent to vimeo")
