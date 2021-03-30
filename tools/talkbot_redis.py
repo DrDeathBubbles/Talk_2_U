@@ -93,7 +93,7 @@ class redis_control_database:
         
 
 
-class redis_data_queue(redis_control_database, sqs_queue):
+class redis_talk_data(redis_control_database, sqs_queue):
 
     redis_schema = {'primary_key':'key',
     'title':'unset',
@@ -103,6 +103,7 @@ class redis_data_queue(redis_control_database, sqs_queue):
     }
 
     def __init_subclass__(cls):
+        self.conn = redis.StrictRedis(host='localhost', port = port, db=1, decode_responses=True) 
         return super().__init_subclass__()
 
 
