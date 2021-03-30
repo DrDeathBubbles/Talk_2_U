@@ -53,7 +53,7 @@ class redis_control_database:
         return data
 
     def get_data(self, key):
-        if self.check_exsits_redis(key): 'Field not in schema'
+        if self.check_exsits_redis(key): 
             data = self.conn.hgetall(key)
         else:
             #logging.error(f'{key} does not exist in redis')
