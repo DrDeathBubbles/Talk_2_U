@@ -34,7 +34,7 @@ class s3_bucket():
         pre_assigned_url = pre_assigned_url.split(break_string)[0]
         return pre_assigned_url
 
-    def get_file_list_url(self, s3_bucket_name):
+    def get_file_list_url(self):
         my_bucket = self.bucket
         get_last_modified = lambda obj: int(obj.last_modified.strftime('%s'))
         unsorted = []
