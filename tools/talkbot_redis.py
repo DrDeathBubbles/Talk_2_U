@@ -30,16 +30,17 @@ class redis_control_database:
         else:
             return False     
 
-    def make_record(self, key):
+    def make_record(self, key, priority = 0):
         schema = self.redis_schema.copy()
         schema['primary_key'] = key
+        schema['priority'] = priority
         self.conn.hmset(key, schema)
 
-    def safe_make_record(self,key):
+    def safe_make_record(self,key, priority = 0):
         if self.check_exists_redis(key):
             return False 
         else:
-            self.make_record(key)
+            self.make_record(key, priority = priority)
             return True     
 
 
