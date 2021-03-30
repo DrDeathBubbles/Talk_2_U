@@ -2,6 +2,7 @@ import vimeo
 import os 
 import time 
 import sys
+import os
 
 client = vimeo.VimeoClient(
     token = os.environ['VIMEO_ACCESS_TOKEN'],
@@ -12,7 +13,7 @@ client = vimeo.VimeoClient(
 
 
 def vimeo_upload(file_name, title, description,privacy='anybody'):
-
+    file_name = os.path.abspath(file_name)
     
     uri = client.upload(file_name, data={
         'name':f'{title}',
