@@ -17,7 +17,7 @@ class redis_control_database:
         self.port = port
         self.conn = redis.StrictRedis(host='localhost', port = port, db=0, decode_responses=True)
 
-    def check_exsits_redis(self, key):
+    def check_exists_redis(self, key):
         if self.conn.exists(key):
             return True
         else:
@@ -35,8 +35,14 @@ class redis_control_database:
         schema['primary_key'] = key
         self.conn.hmset(key, schema)
 
+    def safe_make_record(self,key):
+        if self.check_exists_redis(key):
+            pass 
+        else:
+            self.make_record(key)     
+
     def update_field(self, key, field, value):
-        if self.check_exits_redis(key) and self.check_field_in_schema_fields(field):
+        if self.check_exists_redis(key) and self.check_field_in_schema_fields(field):
             self.conn.hmset(key,field,value)
         else:
             #logging.error(f'{key},{field} not available')
@@ -44,7 +50,7 @@ class redis_control_database:
 
 
     def get_field(self, key, field):
-        if self.check_exits_redis(key) and self.check_field_in_schema_fields(field):
+        if self.check_exists_redis(key) and self.check_field_in_schema_fields(field):
             data = self.conn.hget(key,field)
         else:
             #logging.error(f'{key},{field} not available')
@@ -53,7 +59,7 @@ class redis_control_database:
         return data
 
     def get_data(self, key):
-        if self.check_exsits_redis(key): 
+        if self.check_exists_redis(key): 
             data = self.conn.hgetall(key)
         else:
             #logging.error(f'{key} does not exist in redis')
