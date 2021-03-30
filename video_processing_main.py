@@ -76,7 +76,7 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1):
                logger.error(f'Could not add {key} to priority queue')
 
         for message in normal_messages:
-            formatted_data = data_format_s3(key)
+            key = data_format_s3(message)
             redis_main.safe_make_record(key) 
             try:
                 normal_task_queue.put(key) 
