@@ -5,7 +5,7 @@ from vimeo_tools.video_upload import vimeo_upload
 
 
 def main(bucket = 'cc21-ouput', local_file_location = '/', port = '6378', queue ='talkbot_vimeo'):
-    vimeo_queue = sqs.queue(queue)
+    vimeo_queue = sqs_queue(queue)
     talk_data = redis_talk_data(port)
     video_data = redis_control_database(port) 
     bucket = s3_bucket(bucket) 
