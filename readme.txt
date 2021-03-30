@@ -38,3 +38,5 @@ autossh -i ~/.ssh/steven_tobin.pem -N -f -L localhost:6378:localhost:6379 ubuntu
 To talkbot_data
 autossh -i ~/.ssh/steven_tobin.pem -N -f -L localhost:6378:localhost:6379 ubuntu@ec2-34-243-102-171.eu-west-1.compute.amazonaws.com   
 
+ssh -i ~/.ssh/steven_tobin.pem -N -f -L localhost:6378:localhost:6379 ubuntu@ec2-34-243-102-171.eu-west-1.compute.ama
+zonaws.com

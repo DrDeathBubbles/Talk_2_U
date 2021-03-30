@@ -18,7 +18,7 @@ local_file_location = '/', bucket_name = 'cc21-transcriptions'):
             for k, value in texts.items():
                 bucket.post_to_s3(value)
                 r.update_field(key, k, value)
-
+                
 
             
 
