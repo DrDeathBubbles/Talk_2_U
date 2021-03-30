@@ -5,6 +5,7 @@ from logging import handlers
 from tools.tools import data_format_s3
 from tools.talkbot_sqs import sqs_queue
 from tools.talkbot_redis import redis_control_database
+from tools.talkbot_s3 import s3_bucket 
 from listener import listener_process
 from worker import video_processing
 
@@ -26,7 +27,7 @@ def root_configurer(queue):
     root.setLevel(logging.ERROR)
 
 
-def main(redis_port = 6379, free_cores = 0, num_priority = 1):
+def main(redis_port = 6379, free_cores = 0, num_priority = 1, input_bucket = 'cc21-raw'):
     listner_queue = multiprocessing.Queue(-1)
     listener = multiprocessing.Process(
         target=listener_process, args=(listner_queue,))
@@ -37,6 +38,8 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1):
     talkbot_processing_priority =  sqs_queue('talkbot_processing_priority')
     talkbot_processing_normal = sqs_queue('talkbot_processing_normal')
     talkbot_vimeo = sqs_queue('talkbot_vimeo')
+
+    bucket = s3_bucket(input_bucket)
 
     redis_main =  redis_control_database(redis_port)
     normal_task_queue = multiprocessing.Queue(-1)
@@ -69,7 +72,11 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1):
         normal_messages = talkbot_processing_normal.get_sqs_message()
         for message in priority_messages:
             key = data_format_s3(message)
-            redis_main.safe_make_record(key)
+            if redis_main.safe_make_record(key):
+                redis_main.update_field('s3_raw', bucket.get_object_url(key))
+            else:
+                pass 
+
             try:
                 priority_task_queue.put(key)
             except:
@@ -77,7 +84,8 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1):
 
         for message in normal_messages:
             key = data_format_s3(message)
-            redis_main.safe_make_record(key) 
+            if redis_main.safe_make_record(key):
+                redis_main.update_field('s3_raw', bucket.get_object_url(key))
             try:
                 normal_task_queue.put(key) 
             except:

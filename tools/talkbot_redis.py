@@ -37,9 +37,10 @@ class redis_control_database:
 
     def safe_make_record(self,key):
         if self.check_exists_redis(key):
-            pass 
+            return False 
         else:
-            self.make_record(key)     
+            self.make_record(key)
+            return True     
 
 
     def update_field(self, key, field, value):
@@ -79,3 +80,5 @@ class redis_data_queue(redis_control_database, sqs_queue):
 
     def __init_subclass__(cls):
         return super().__init_subclass__()
+
+
