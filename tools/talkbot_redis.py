@@ -72,12 +72,35 @@ class redis_control_database:
             data = {}
         return data
 
+    def get_all_data(self, ):
+        keys = self.conn.keys('*')
+        out = []
+        for key in keys:
+            type = conn.type(key)
+            if type == "string":
+                out.append(self.conn.get(key))
+            if type == "hash":
+                out.append(self.conn.hgetall(key))
+            if type == "zset":
+                out.append(self.conn.zrange(key, 0, -1))
+            if type == "list":
+                out.append(self.conn.lrange(key, 0, -1))
+            if type == "set":
+                out.append(self.conn.smembers(key))
+        return out        
 
  
         
 
 
 class redis_data_queue(redis_control_database, sqs_queue):
+
+    redis_schema = {'primary_key':'key',
+    'title':'unset',
+    'description':'unset',
+    'vimeo_url':'unset',
+    'priority':0
+    }
 
     def __init_subclass__(cls):
         return super().__init_subclass__()
