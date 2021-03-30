@@ -17,7 +17,14 @@ class redis_control_database:
         self.port = port
         self.conn = redis.StrictRedis(host='localhost', port = port, db=0, decode_responses=True)
 
-    def check_keys_in_redis_fields(self, field):
+    def check_exits_redis(self, key):
+        if self.conn.exists(key):
+            return True
+        else:
+            return False       
+
+
+    def check_field_in_schema_fields(self, field):
         if field in self.redis_schema.keys():
             return True
         else:
@@ -28,26 +35,28 @@ class redis_control_database:
         schema['primary_key'] = key
         self.conn.hmset(key, schema)
 
-    def update_field(self, key,field,value):
-        assert self.check_keys_in_redis_fields(field), 'Field not in schema'
-        self.conn.hmset(key,field,value)
+    def update_field(self, key, field, value):
+        if self.check_exits_redis(key) and self.check_field_in_schema_fields(field):
+            self.conn.hmset(key,field,value)
+        else:
+            print('Did not set field')
 
-    def get_field(self, key,field):
-        assert self.check_keys_in_redis_fields(field), 'Field not in schema'
-        data = self.conn.hget(key,field)
+
+    def get_field(self, key, field):
+        if self.check_exits_redis(key) and self.check_field_in_schema_fields(field):
+            data = self.conn.hget(key,field)
+        else:
+            print('Did not set field')
+            data = {}
         return data
 
     def get_data(self, key):
-        assert self.check_keys_in_redis_fields(field), 'Field not in schema'
+        assert self.check_exists_redis(key), 'Field not in schema'
         data = self.conn.hgetall(key)
         return data
 
 
-    def check_exits(self, key):
-        if self.conn.exists(key):
-            return True
-        else:
-            return False        
+ 
         
 
 
