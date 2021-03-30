@@ -1,7 +1,7 @@
 from tools.talkbot_sqs import sqs_queue
 from tools.talkbot_redis import redis_control_database, redis_talk_data
 from tools.talkbot_s3 import s3_bucket
-from vimeo.video_upload import vimeo_upload
+from vimeo_tools.video_upload import vimeo_upload
 
 
 def main(bucket = 'cc21-ouput', local_file_location = '/', port = '6378', queue ='talkbot_vimeo'):
