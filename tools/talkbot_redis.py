@@ -45,9 +45,11 @@ class redis_control_database:
     def update_field(self, key, field, value):
         if self.check_exists_redis(key) and self.check_field_in_schema_fields(field):
             self.conn.hset(key,field,value)
+            return True
         else:
             #logging.error(f'{key},{field} not available')
             print(f'{key},{field} not available')
+            return False 
 
 
     def get_field(self, key, field):
