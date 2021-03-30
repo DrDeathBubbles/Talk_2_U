@@ -87,4 +87,4 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1):
 
 
 if __name__ == '__main__':
-    main()
+    main(redis_port = '6378')
