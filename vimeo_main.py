@@ -14,8 +14,8 @@ def main(bucket = 'cc21-ed', local_file_location = './', port = '6378', queue ='
         for message in messages:
             local_file = local_file_location + message
             bucket.retrieve_from_s3(message, local_file)
-            if data.check_exists_redis(message):
-                d = data.get_data(message)
+            if talk_data.check_exists_redis(message):
+                d = talk_data.get_data(message)
                 vimeo_url = vimeo_upload(local_file, d['title'],d['description'])
             else:
                 vimeo_url = vimeo_upload(local_file,'Unset','Unset','private')     
