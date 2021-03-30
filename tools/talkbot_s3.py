@@ -11,6 +11,7 @@ import boto3
 class s3_bucket():
 
     def __init__(self, bucket_name):
+        self.s3_client = session.create_client('s3', region_name = 'eu-west-1') 
         self.s3 = boto3.resource('s3')
         self.bucket_name = bucket_name
         self.bucket =  self.s3.Bucket(bucket_name) 
@@ -27,7 +28,7 @@ class s3_bucket():
 
     def get_object_url(self, key):
         break_string = '?AWSAccessKeyId'
-        pre_assigned_url = s3.generate_presigned_url('get_object', 
+        pre_assigned_url = s3_client.generate_presigned_url('get_object', 
         Params={'Bucket': self.bucket_name, 'Key': key})
         pre_assigned_url = pre_assigned_url.split(break_string)[0]
         return pre_assigned_url
