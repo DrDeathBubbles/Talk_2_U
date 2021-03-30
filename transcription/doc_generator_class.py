@@ -51,7 +51,8 @@ def doc_generator():
         self.service_objects = service_generation()
 
 
-    def doc_generation(vimeo_url, s3_url, uid, speakers, text, title,
+    def doc_generation(vimeo_url='unset', s3_url = 'unset', uid = 'unset', 
+    speakers = 'unset', text = 'unset', title ='unset',
     drive_service = self.service[0],service = self.service_objects[1]):
 
         document_id = '1szDKqGQYj0w8eze0D5YHr5kJ-XyooagV-moK6-kmK08'

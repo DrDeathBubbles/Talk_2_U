@@ -1,4 +1,5 @@
 import redis 
+from talkbot_sqs import sqs_queue
 
 class redis_control_database:
     redis_schema = {'primary_key':'key',
@@ -50,3 +51,7 @@ class redis_control_database:
         
 
 
+class redis_data_queue(redis_control_database, sqs_queue):
+
+    def __init_subclass__(cls):
+        return super().__init_subclass__()
