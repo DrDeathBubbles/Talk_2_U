@@ -98,7 +98,7 @@ class redis_talk_data(redis_control_database, sqs_queue):
     redis_schema = {'primary_key':'unset',
     'title':'unset',
     'description':'unset',
-    'vimeo_url':'unset',
+    'vimeo':'unset',
     }
 
     def __init__(self,port):
