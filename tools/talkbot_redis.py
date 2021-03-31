@@ -1,5 +1,5 @@
 import redis 
-from Talk_2_U.vimeo.video_upload import * 
+from vimeo_tools.video_upload import * 
 
 class redis_control_database:
     redis_schema = {'primary_key':'unset',
