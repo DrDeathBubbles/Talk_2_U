@@ -111,6 +111,13 @@ class redis_talk_data(redis_control_database, sqs_queue):
         schema['primary_key'] = key
         self.conn.hmset(key, schema)
 
+     def make_record_details(self, key, title, description):
+        schema = self.redis_schema.copy()   
+        schema['primary_key'] = key
+        schema['title'] = title
+        schema['description'] = description
+        self.conn.hmset(key, schema) 
+
     def safe_make_record(self, key, priority=0):
         if self.check_exists_redis(key):
             return False 
