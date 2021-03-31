@@ -62,12 +62,3 @@ def subtitle_upload(video_uri,file_name,language = 'en-US', track_type = 'subtit
     video_uri = '/videos/' + video_uri.split('/')[3]
     out = client.upload_texttrack(video_uri,track_type,language,file_name)
     return out
-
-
-    if __name__ == "__main__":
-      file_name = sys.argv[1]
-      title = sys.argv[2]
-      description = sys.argv[3]
-      print(file_name)
-      print(title)
-      print(description)
