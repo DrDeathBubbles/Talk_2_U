@@ -1,5 +1,5 @@
 import redis 
-from tools.talkbot_sqs import sqs_queue
+from Talk_2_U.vimeo.video_upload import * 
 
 class redis_control_database:
     redis_schema = {'primary_key':'unset',
@@ -93,7 +93,7 @@ class redis_control_database:
         
 
 
-class redis_talk_data(redis_control_database, sqs_queue):
+class redis_talk_data(redis_control_database):
 
     redis_schema = {'primary_key':'unset',
     'title':'unset',
@@ -123,4 +123,21 @@ class redis_talk_data(redis_control_database, sqs_queue):
             return False 
         else:
             self.make_record(key)
-            return True     
+            return True    
+
+    def brute_insert_data(self, vimeo_url , title, description):
+        self.update_field(key,'description', description)
+        vimeo_id = vimeo_id(vime_url)
+        update_title_description(video_id, title, description)
+
+    def insert_data(self, key, title, description):
+        if self.check_exists_redis(key):
+            if self.get_field('title') == 'unset':
+                self.update_field(key, 'title', title)
+                self.update_field(key,'description', description)
+                vimeo_id = vimeo_id(vime_url)
+                update_title_description(video_id, title, description)
+            else:
+                pass    
+        else:
+            self.make_record_details(key, title, description)       

@@ -37,6 +37,9 @@ def vimeo_upload(file_name, title, description, privacy='nobody'):
     response = client.get(uri + '?fields=link').json()
     return response['link']
 
+def vimeo_id(url):
+  return url.lstrip('https://vimeo.com/')
+
 
 def update_title_description(video_id, title, description):
   uri = f'https://api.vimeo.com/videos/{video_id}'
