@@ -126,6 +126,7 @@ class redis_talk_data(redis_control_database):
             return True    
 
     def brute_insert_data(self, vimeo_url , title, description):
+        self.update_field(key, 'title', title)
         self.update_field(key,'description', description)
         vimeo_id = vimeo_id(vime_url)
         update_title_description(video_id, title, description)
