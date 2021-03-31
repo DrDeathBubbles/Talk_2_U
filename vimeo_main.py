@@ -18,7 +18,7 @@ def main(bucket = 'cc21-ed', local_file_location = './', port = '6378', queue ='
                 d = talk_data.get_data(message)
                 vimeo_url = vimeo_upload(local_file, d['title'],d['description'])
             else:
-                vimeo_url = vimeo_upload(local_file,'Unset','Unset','private')     
+                vimeo_url = vimeo_upload(local_file,'Unset','Unset')     
     
             video_data.update_field(message,'vimeo',vimeo_url)
             talk_data.update(message, 'vimeo', vimeo_url)
