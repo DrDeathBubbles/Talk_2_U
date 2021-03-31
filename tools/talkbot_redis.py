@@ -128,7 +128,7 @@ class redis_talk_data(redis_control_database):
     def brute_insert_data(self, vimeo_url , title, description):
         self.update_field(key, 'title', title)
         self.update_field(key,'description', description)
-        vimeo_id = vimeo_id(vime_url)
+        vimeo_id = vimeo_id(vimeo_url)
         update_title_description(video_id, title, description)
 
     def insert_data(self, key, title, description):
@@ -136,8 +136,8 @@ class redis_talk_data(redis_control_database):
             if self.get_field(key, 'title') != title and self.get_field(key, 'description') != description:
                 self.update_field(key, 'title', title)
                 self.update_field(key,'description', description)
-                vimeo_id = vimeo_id(self.get_field(key, 'vimeo'))
-                update_title_description(video_id, title, description)
+                id_vimeo = vimeo_id(self.get_field(key, 'vimeo'))
+                update_title_description(id_vimeo, title, description)
             else:
                 pass    
         else:
