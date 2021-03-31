@@ -36,3 +36,35 @@ def vimeo_upload(file_name, title, description, privacy='nobody'):
 
     response = client.get(uri + '?fields=link').json()
     return response['link']
+
+
+def update_title_description(video_id, title, description):
+  uri = f'https://api.vimeo.com/videos/{video_id}'
+  test = client.patch(uri, data = {'name':title, 'description':description})
+  return test
+
+def set_privacy_status(video_id, privacy = 'disable'):
+  uri = f'https://api.vimeo.com/videos/{video_id}'
+  test = client.patch(uri, data = {'privacy':{'view':privacy,'embed': 'whitelist'}})
+  return test
+
+
+def set_whitelist_domain(video_id, domain = 'live.collisionconf.com'):
+  out = client.put(f'https://api.vimeo.com/videos/{video_id}/privacy/domains/{domain}')
+  return out 
+
+
+
+def subtitle_upload(video_uri,file_name,language = 'en-US', track_type = 'subtitles'):
+    video_uri = '/videos/' + video_uri.split('/')[3]
+    out = client.upload_texttrack(video_uri,track_type,language,file_name)
+    return out
+
+
+    if __name__ == "__main__":
+      file_name = sys.argv[1]
+      title = sys.argv[2]
+      description = sys.argv[3]
+      print(file_name)
+      print(title)
+      print(description)
