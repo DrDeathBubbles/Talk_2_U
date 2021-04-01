@@ -73,8 +73,8 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1, input_bucket = 'cc
         normal_messages = talkbot_processing_normal.get_sqs_message()
         for message in priority_messages:
             key = data_format_s3(message)
-            if redis_main.safe_make_record(key):
-                redis_main.update_field(key, 's3_raw', bucket.get_object_url(key))
+            if redis_video_data.safe_make_record(key):
+                redis_video_data.update_field(key, 's3_raw', bucket.get_object_url(key))
             else:
                 pass 
 
@@ -85,8 +85,8 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1, input_bucket = 'cc
 
         for message in normal_messages:
             key = data_format_s3(message)
-            if redis_main.safe_make_record(key):
-                redis_main.update_field(key, 's3_raw', bucket.get_object_url(key))
+            if redis_video_data.safe_make_record(key):
+                redis_video_data.update_field(key, 's3_raw', bucket.get_object_url(key))
             try:
                 normal_task_queue.put(key) 
             except:
