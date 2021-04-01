@@ -40,7 +40,7 @@ class redis_control_database:
         schema = self.redis_schema.copy()
         for k, d in data.items():
             if self.check_field_in_schema_fields(k):
-                schema[key] = d
+                schema[k] = d
             else:
                 print(f'{k} not in schema')
         self.conn.hmset(key, schema)        
@@ -76,14 +76,14 @@ class redis_control_database:
         if self.check_exists_redis(key):
             for k, d in data.items():
                 if self.check_field_in_schema_fields(k):
-                    schema[key] = d
+                    schema[k] = d
         self.conn.hmset(key, schema)                    
 
     def update_or_create(self, key, data):
         if self.safe_make_record_from_dict(key, data):
             return
         else:
-            self.update(key, data) 
+            self.update_dict(key, data) 
 
 
     def get_field(self, key, field):
