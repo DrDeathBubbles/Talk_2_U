@@ -42,7 +42,7 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1, input_bucket = 'cc
     bucket = s3_bucket(input_bucket)
 
     redis_video_data =  redis_control_database(redis_port)
-    redis_talk_data = redis_talk_data(redis_port)
+    redis_talk_data = redis_talk_database(redis_port)
     normal_task_queue = multiprocessing.Queue(-1)
     priority_task_queue = multiprocessing.Queue(-1)
 

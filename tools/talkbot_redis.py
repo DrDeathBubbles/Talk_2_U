@@ -125,7 +125,7 @@ class redis_control_database:
         
 
 
-class redis_talk_data(redis_control_database):
+class redis_talk_database(redis_control_database):
 
     redis_schema = {'talk_key':'unset',
     'video_key':'unset',
