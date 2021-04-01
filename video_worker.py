@@ -83,7 +83,7 @@ watermark = '/home/ubuntu/AJM/video_files/assets/watermark.png'):
             except:
                 logger.error(f"{key} not sent to vimeo")
 
-
+            print(f'{process_name} has finished {key}')
 
 
             #Send SQS to vimeo upload    
