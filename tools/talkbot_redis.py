@@ -112,6 +112,16 @@ class redis_talk_data(redis_control_database):
         schema['primary_key'] = key
         self.conn.hmset(key, schema)
 
+    def make_record_from_dict(self, key, data):
+        schema = self.redis_schema.copy()
+        for k, d in data.items():
+            if self.check_field_in_schema_fields(k):
+                schema[key] = d
+            else:
+                print(f'{k} not in scmena')
+        self.conn.hmset(key, schema)          
+                
+
     def make_record_details(self, key, title, description):
         schema = self.redis_schema.copy()   
         schema['primary_key'] = key
@@ -124,7 +134,14 @@ class redis_talk_data(redis_control_database):
             return False 
         else:
             self.make_record(key)
-            return True    
+            return True
+
+    def safe_make_record_from_dict(self, key, data):
+        if self.check_exists_redis(key):
+            return False            
+        else:
+            self.make_record_from_dict(key, data)
+            return True
 
     def brute_insert_data(self, key, title, description):
         self.update_field(key, 'title', title)
