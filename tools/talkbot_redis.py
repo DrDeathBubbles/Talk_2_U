@@ -42,7 +42,7 @@ class redis_control_database:
             if self.check_field_in_schema_fields(k):
                 schema[key] = d
             else:
-                print(f'{k} not in scmena')
+                print(f'{k} not in schema')
         self.conn.hmset(key, schema)        
 
 
@@ -71,7 +71,7 @@ class redis_control_database:
             print(f'{key},{field} not available')
             return False 
 
-    def update(self, key, data):
+    def update_dict(self, key, data):
         schema = self.redis_schema.copy()
         if self.check_exists_redis(key):
             for k, d in data.items():
