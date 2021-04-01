@@ -4,7 +4,7 @@ import multiprocessing
 from logging import handlers
 from tools.tools import data_format_s3
 from tools.talkbot_sqs import sqs_queue
-from tools.talkbot_redis import redis_control_database, redis_talk_data
+from tools.talkbot_redis import redis_control_database, redis_talk_database
 from tools.talkbot_s3 import s3_bucket 
 from listener import listener_process
 from video_worker import video_processing
