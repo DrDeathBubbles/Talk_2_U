@@ -7,3 +7,5 @@ def main():
     input_bucket.post_to_s3('./test/test_video.mp4','test_video.mp4')
 
 
+if __name__ == '__main__':
+    main()
