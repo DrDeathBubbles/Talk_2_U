@@ -7,7 +7,7 @@ from tools.talkbot_sqs import sqs_queue
 from tools.talkbot_redis import redis_control_database
 from tools.talkbot_s3 import s3_bucket 
 from listener import listener_process
-from worker import video_processing
+from video_worker import video_processing
 
 
 
