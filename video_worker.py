@@ -16,7 +16,7 @@ def cleanup_files(raw_file, ed_file):
 
 
 
-def video_processing(listner_queue, task_queue, redis_database,
+def video_processing(listner_queue, task_queue, redis_video_data, redis_talk_data,
  talkbot_vimeo, input_bucket = 'cc21-raw',
 output_bucket = 'cc21-ed', raw_location = '/home/ubuntu/AJM/video_files/raw/', 
 ed_location = '/home/ubuntu/AJM/video_files/ed/', sting = '/home/ubuntu/AJM/video_files/assets/sting.mp4',
@@ -59,10 +59,16 @@ watermark = '/home/ubuntu/AJM/video_files/assets/watermark.png'):
                 logger.error(f"{key} failed to produce video url.")
 
             try:
-                redis_database.update_field(key,'s3_processed', edited_url)
+                redis_video_data.update_field(key,'s3_processed', edited_url)
 
             except:                    
                 logger.error(f"{key} failed to update redis.")
+
+            try:
+                redis_talk_data.update_field(key,'s3_processed', edited_url)
+
+            except:                    
+                logger.error(f"{key} failed to update redis.")    
          
             try:
                 cleanup_files(raw_file,ed_file)    

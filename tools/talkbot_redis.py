@@ -98,6 +98,7 @@ class redis_talk_data(redis_control_database):
     redis_schema = {'primary_key':'unset',
     'title':'unset',
     'description':'unset',
+    's3_processed':'uset',
     'vimeo':'unset',
     }
 

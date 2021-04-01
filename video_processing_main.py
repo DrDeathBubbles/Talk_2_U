@@ -4,7 +4,7 @@ import multiprocessing
 from logging import handlers
 from tools.tools import data_format_s3
 from tools.talkbot_sqs import sqs_queue
-from tools.talkbot_redis import redis_control_database
+from tools.talkbot_redis import redis_control_database, redis_talk_data
 from tools.talkbot_s3 import s3_bucket 
 from listener import listener_process
 from video_worker import video_processing
@@ -41,7 +41,8 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1, input_bucket = 'cc
 
     bucket = s3_bucket(input_bucket)
 
-    redis_main =  redis_control_database(redis_port)
+    redis_video_data =  redis_control_database(redis_port)
+    redis_talk_data = redis_talk_data(redis_port)
     normal_task_queue = multiprocessing.Queue(-1)
     priority_task_queue = multiprocessing.Queue(-1)
 
@@ -53,13 +54,13 @@ def main(redis_port = 6379, free_cores = 0, num_priority = 1, input_bucket = 'cc
     
     for i in range(num_normal):
         worker = multiprocessing.Process(target= video_processing,args=(listner_queue, normal_task_queue,
-        redis_main, talkbot_vimeo))
+        redis_video_data,redis_talk_data, talkbot_vimeo))
         normal_tasks.append(worker)
         worker.start()
         
     for i in range(num_priority):
         worker = multiprocessing.Process(target= video_processing, args=(listner_queue, priority_task_queue,
-        redis_main, talkbot_vimeo))
+        redis_video_data, redis_talk_data, talkbot_vimeo))
         priority_tasks.append(worker)
         worker.start()
 
