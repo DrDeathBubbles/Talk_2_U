@@ -2,7 +2,7 @@ import redis
 from vimeo_tools.video_upload import * 
 
 class redis_control_database:
-    redis_schema = {'primary_key':'unset',
+    redis_schema = {'video_key':'unset',
     's3_raw':'unset',
     's3_processed':'unset',
     'transcript':'unset',
@@ -127,7 +127,8 @@ class redis_control_database:
 
 class redis_talk_data(redis_control_database):
 
-    redis_schema = {'primary_key':'unset',
+    redis_schema = {'talk_key':'unset',
+    'video_key':'unset',
     'title':'unset',
     'description':'unset',
     's3_processed':'uset',

@@ -65,7 +65,7 @@ watermark = '/home/ubuntu/AJM/video_files/assets/watermark.png'):
                 logger.error(f"{key} failed to update redis.")
 
             try:
-                redis_talk_data.update_or_create(key, {'s3_processed': edited_url})
+                redis_talk_data.update_or_create(key, {'s3_processed': edited_url, 'video_key':key})
 
             except:                    
                 logger.error(f"{key} failed to update redis.")    
