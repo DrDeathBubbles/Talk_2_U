@@ -133,12 +133,13 @@ class redis_talk_data(redis_control_database):
 
     def insert_data(self, key, title, description):
         if self.check_exists_redis(key):
-            if self.get_field(key, 'title') != title and self.get_field(key, 'description') != description:
+            if self.get_field(key, 'title') != title: 
                 self.update_field(key, 'title', title)
+            if self.get_field(key, 'description') != description:
                 self.update_field(key,'description', description)
-                id_vimeo = vimeo_id(self.get_field(key, 'vimeo'))
+            vimeo_url = self.get_field(key, 'vimeo') 
+            if vimeo_url != 'unset': 
+                vimeo_id = vimeo_id(self.get_field(key, 'vimeo'))
                 update_title_description(id_vimeo, title, description)
-            else:
-                pass    
         else:
             self.make_record_details(key, title, description)       
