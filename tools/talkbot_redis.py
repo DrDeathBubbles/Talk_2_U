@@ -36,12 +36,30 @@ class redis_control_database:
         schema['priority'] = priority
         self.conn.hmset(key, schema)
 
+    def make_record_from_dict(self, key, data = {}):
+        schema = self.redis_schema.copy()
+        for k, d in data.items():
+            if self.check_field_in_schema_fields(k):
+                schema[key] = d
+            else:
+                print(f'{k} not in scmena')
+        self.conn.hmset(key, schema)        
+
+
     def safe_make_record(self,key, priority = 0):
         if self.check_exists_redis(key):
             return False 
         else:
             self.make_record(key, priority = priority)
-            return True     
+            return True
+
+    def safe_make_record_from_dict(self, key, data = {}):
+        if self.check_exists_redis(key):
+            return False            
+        else:
+            self.make_record_from_dict(key, data)
+            return True
+
 
 
     def update_field(self, key, field, value):
@@ -52,6 +70,20 @@ class redis_control_database:
             #logging.error(f'{key},{field} not available')
             print(f'{key},{field} not available')
             return False 
+
+    def update(self, key, data):
+        schema = self.redis_schema.copy()
+        if self.check_exists_redis(key):
+            for k, d in data.items():
+                if self.check_field_in_schema_fields(k):
+                    schema[key] = d
+        self.conn.hmset(key, schema)                    
+
+    def update_or_create(self, key, data):
+        if self.safe_make_record_from_dict(key, data):
+            return
+        else:
+            self.update(key, data) 
 
 
     def get_field(self, key, field):
@@ -136,12 +168,7 @@ class redis_talk_data(redis_control_database):
             self.make_record(key)
             return True
 
-    def safe_make_record_from_dict(self, key, data = {}):
-        if self.check_exists_redis(key):
-            return False            
-        else:
-            self.make_record_from_dict(key, data)
-            return True
+
 
     def brute_insert_data(self, key, title, description):
         self.update_field(key, 'title', title)
