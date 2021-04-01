@@ -112,7 +112,7 @@ class redis_talk_data(redis_control_database):
         schema['primary_key'] = key
         self.conn.hmset(key, schema)
 
-    def make_record_from_dict(self, key, data):
+    def make_record_from_dict(self, key, data = {}):
         schema = self.redis_schema.copy()
         for k, d in data.items():
             if self.check_field_in_schema_fields(k):
@@ -136,7 +136,7 @@ class redis_talk_data(redis_control_database):
             self.make_record(key)
             return True
 
-    def safe_make_record_from_dict(self, key, data):
+    def safe_make_record_from_dict(self, key, data = {}):
         if self.check_exists_redis(key):
             return False            
         else:
