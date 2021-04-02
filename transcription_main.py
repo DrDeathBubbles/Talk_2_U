@@ -15,7 +15,7 @@ local_file_location = './', bucket_name = 'cc21-ed'):
     video_data = redis_control_database(redis_port) 
     bucket = s3_bucket(bucket_name)
     while True:
-        messages = transcription_queue.get_sqs_message() 
+        messages = transcription_queue.get_sqs_message_raw() 
         for key in messages:
             video_url = video_data.get_field(key, 's3_raw')
             text = generate_transcription_translate_import(infile, languages = ['pt','es','de','fr'],
