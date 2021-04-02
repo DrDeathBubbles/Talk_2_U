@@ -21,7 +21,7 @@ local_file_location = './', bucket_name = 'cc21-ed'):
             process = 'cc21', translate = False, region ='eu-west-1', inbucket = 'cc21-raw', 
             file_location = local_file_location)
             for k, value in text.items():
-                url = bucket.post_to_s3(f'{k}_{key}'value)
+                url = bucket.post_to_s3(f'{k}_{key}', value)
                 video_data.update_field(key, k, url)
                 
     print('Done')
