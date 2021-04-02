@@ -1,5 +1,6 @@
 from tools.talkbot_redis import redis_control_database, redis_talk_database
 from tools.talkbot_s3 import s3_bucket
+from tools.talkbot_sqs import sqs_queue
 import os
 #This needs to be investaged/updated 
 #from transcription.Transcription_control import generate_transcription_translate_import 
@@ -7,7 +8,7 @@ import os
 
 def main(redis_port = '6378', transcription_queue_name = 'talkbot_transcription',
 local_file_location = './', bucket_name = 'cc21-transcriptions'):
-    transcription_queue = sqs.queue(transcription_queue_name)
+    transcription_queue = sqs_queue(transcription_queue_name)
     talk_data = redis_talk_database(port)
     video_data = redis_control_database(port) 
     bucket = s3_bucket(bucket_name)
