@@ -3,7 +3,7 @@ from tools.talkbot_s3 import s3_bucket
 from tools.talkbot_sqs import sqs_queue
 import os
 #This needs to be investaged/updated 
-#from transcription.Transcription_control import generate_transcription_translate_import 
+from transcription.Transcription_control import generate_transcription_translate_import 
 
 
 def main(redis_port = '6378', transcription_queue_name = 'talkbot_transcription',
