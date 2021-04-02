@@ -9,7 +9,7 @@ from Transcription_control import generate_transcription_translate_import
 
 
 def main(redis_port = '6378', transcription_queue_name = 'talkbot_transcription',
-local_file_location = './', bucket_name = 'cc21-ed'):
+local_file_location = '', bucket_name = 'cc21-ed'):
     transcription_queue = sqs_queue(transcription_queue_name)
     talk_data = redis_talk_database(redis_port)
     video_data = redis_control_database(redis_port) 
@@ -20,9 +20,9 @@ local_file_location = './', bucket_name = 'cc21-ed'):
             text = generate_transcription_translate_import(key, languages = ['pt','es','de','fr'],
             process = 'cc21', translate = False, region ='eu-west-1', inbucket = 'cc21-raw', 
             file_location = local_file_location)
+            video_data.update_or_create(key, text)
             for k, value in text.items():
                 url = bucket.post_to_s3(value, f'{k}_{key}')
-                video_data.update_field(key, k, url)
                 
     print('Done')
 
