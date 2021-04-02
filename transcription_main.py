@@ -23,8 +23,7 @@ local_file_location = '', bucket_name = 'cc21-ed'):
             video_data.update_or_create(key, text)
             for k, value in text.items():
                 url = bucket.post_to_s3(value, f'{k}_{key}')
-                
-    print('Done')
+        print('Done')
 
 
 
