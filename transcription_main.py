@@ -20,7 +20,7 @@ local_file_location = './', bucket_name = 'cc21-ed'):
             text = generate_transcription_translate_import(key, languages = ['pt','es','de','fr'],
             process = 'cc21', translate = False, region ='eu-west-1', inbucket = 'cc21-raw', 
             file_location = local_file_location)
-            for k, value in texts.items():
+            for k, value in text.items():
                 url = bucket.post_to_s3(value)
                 video_data.update_field(key, k, url)
                 
