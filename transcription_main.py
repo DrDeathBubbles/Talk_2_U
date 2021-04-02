@@ -1,9 +1,11 @@
 from tools.talkbot_redis import redis_control_database, redis_talk_database
 from tools.talkbot_s3 import s3_bucket
 from tools.talkbot_sqs import sqs_queue
+import sys
 import os
+sys.path.append(os.path.abspath('../talkbot_transcription/source/'))
 #This needs to be investaged/updated 
-from transcription.Transcription_control import generate_transcription_translate_import 
+from Transcription_control import generate_transcription_translate_import 
 
 
 def main(redis_port = '6378', transcription_queue_name = 'talkbot_transcription',
