@@ -9,7 +9,7 @@ from Transcription_control import generate_transcription_translate_import
 
 
 def main(redis_port = '6378', transcription_queue_name = 'talkbot_transcription',
-local_file_location = './', bucket_name = 'cc21-transcriptions'):
+local_file_location = './', bucket_name = 'cc21-ed'):
     transcription_queue = sqs_queue(transcription_queue_name)
     talk_data = redis_talk_database(redis_port)
     video_data = redis_control_database(redis_port) 
