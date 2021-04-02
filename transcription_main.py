@@ -9,8 +9,8 @@ import os
 def main(redis_port = '6378', transcription_queue_name = 'talkbot_transcription',
 local_file_location = './', bucket_name = 'cc21-transcriptions'):
     transcription_queue = sqs_queue(transcription_queue_name)
-    talk_data = redis_talk_database(port)
-    video_data = redis_control_database(port) 
+    talk_data = redis_talk_database(redis_port)
+    video_data = redis_control_database(redis_port) 
     bucket = s3_bucket(bucket_name)
     while True:
         messages = transcription_queue.get_sqs_message() 
