@@ -40,7 +40,7 @@ class s3_bucket():
         unsorted = []
         for f in my_bucket.objects.filter():
             unsorted.append(f)
-        files = [obj.key for obj in sorted(unsorted, key=get_last_modified, reverse=True)][1:]
+        files = [obj.key for obj in sorted(unsorted, key=get_last_modified, reverse=True)]
         files_url = [self.get_object_url(f) for f in files]
         #files_url = ['https://s3-eu-west-1.amazonaws.com/' + self.bucket_name + '/' + f for f in files]
         return list(zip(*[files,files_url])) 
