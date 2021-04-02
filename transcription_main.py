@@ -1,4 +1,4 @@
-from tools.talkbot_redis import redis_control_databasei, redis_talk_data
+from tools.talkbot_redis import redis_control_database, redis_talk_database
 from tools.talkbot_s3 import s3_bucket
 import os
 #This needs to be investaged/updated 
