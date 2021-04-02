@@ -18,12 +18,12 @@ local_file_location = './', bucket_name = 'cc21-transcriptions'):
         messages = transcription_queue.get_sqs_message() 
         for key in messages:
             video_url = video_data.get_field(key, 's3_raw')
-            generate_transcription_translate_import(infile, languages = ['pt','es','de','fr'],
- process = 'cc21', translate = False, region ='eu-west-1', inbucket = 'cc21-raw', file_location = local_file_location)
-            texts = generate_transcription_translate_import(video_url, file_location = './')
+            text = generate_transcription_translate_import(infile, languages = ['pt','es','de','fr'],
+            process = 'cc21', translate = False, region ='eu-west-1', inbucket = 'cc21-raw', 
+            file_location = local_file_location)
             for k, value in texts.items():
                 bucket.post_to_s3(value)
-                r.update_field(key, k, value)
+                talk_data.update_field(key, k, value)
                 
 
 
